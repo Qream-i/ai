@@ -1,0 +1,10 @@
+package javaBasic3;
+
+public class Å¬·¡½º°³³ä {
+
+	public static void main(String[] args) {
+		Student st1 = new Student("230101","È«±æµ¿", "AI",100, "010-123-1234");
+
+	}
+
+}

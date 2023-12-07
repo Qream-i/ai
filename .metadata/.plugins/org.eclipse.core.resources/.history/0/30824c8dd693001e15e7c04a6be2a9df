@@ -1,0 +1,51 @@
+package javaBasic.ch04.sec01;
+
+public class While문연습 {
+
+	public static void main(String[] args) {
+		
+			
+		// 2 4 6 8 10 출력해보기
+		int num = 0;
+		while (num < 10) {
+			num += 2;			
+		System.out.println(num);
+		}
+		//do~while
+//		do {
+//			//반복할 내용
+//		}while(조건식)
+//	
+		// 1 2 3 4 ... 10
+		int num1 = 1;
+		do { System.out.println(num1);
+		num1++;	}
+		while(num1<=10);
+		
+		// 10 9 8 7 ... 1
+		int num2 = 10;
+		do {System.out.println(num2);
+		num2--;}
+		while(num2>=1);
+		
+		//2 4 6 8 ... 20
+		int num3 = 2;
+		do {System.out.println(num3);
+		num3+=2;}
+		while(num3<=20);
+		
+		//5 10 15 20 25 30 ... 100
+		int num4 = 1;
+		;{
+		do {if (num4 % 5 == 0)
+			System.out.println(num4);
+		num4++;continue;}
+		while(num4<=100);
+		}
+	}
+		
+	}
+
+
+
+

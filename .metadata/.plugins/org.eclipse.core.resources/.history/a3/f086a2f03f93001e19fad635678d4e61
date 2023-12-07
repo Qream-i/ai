@@ -1,0 +1,27 @@
+package javaBasic.ch04.sec01;
+
+public class For문 {
+
+	public static void main(String[] args) {
+		// 반복문
+		// 형식 while(조건) { 참이면 수행할 문장 }
+		//1~100 출력하기
+		// System.out.println("1 2 3 4 ... 100");
+		/*int number = 1;
+		System.out.println(number);
+		while( number <100 ) {
+			number++;
+			System.out.println(number);
+		}*/
+		// 10 20 30 40 .. 100
+		int number = 10;
+		System.out.println(number);
+		while (number<100) {
+			number += 10;
+			System.out.println(number);
+		}
+		
+
+	}
+
+}
