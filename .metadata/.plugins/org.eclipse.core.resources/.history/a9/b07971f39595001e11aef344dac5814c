@@ -1,0 +1,14 @@
+package javaBasic3.ch06.sec07;
+
+public class MemberService {
+	
+	boolean login(String id, String password) {
+		return true;
+	}
+	void logout (String id) {
+		
+	}
+	
+	
+
+}
