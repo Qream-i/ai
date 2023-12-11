@@ -1,0 +1,10 @@
+package javaBasic3.ch06.sec09;
+
+public class SportCar {
+	int a;
+	
+	void aPrinter() {
+		System.out.println(a);
+	}
+
+}

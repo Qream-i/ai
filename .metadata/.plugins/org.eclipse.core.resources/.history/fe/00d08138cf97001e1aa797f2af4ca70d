@@ -1,0 +1,28 @@
+package javaBasic3.ch06.sec10;
+
+public class Car {
+	String model="그랜저";
+	int speed;
+	int maxSpeed=350 ;
+	boolean start;
+	String color = "검정";
+	String company = "현대자동차";
+	
+	public Car() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Car(String company,String model, String color,int speed, int maxSpeed ) {
+		super();
+		this.model = model;
+		this.speed = speed;
+		this.maxSpeed = maxSpeed;
+		this.start = start;
+		this.color = color;
+		this.company = company;
+	}
+	
+	
+
+	
+}

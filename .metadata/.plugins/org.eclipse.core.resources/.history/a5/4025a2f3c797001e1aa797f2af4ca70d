@@ -1,0 +1,9 @@
+package javaBasic3.ch06.sec10;
+
+public class Car {
+	String model;
+	int speed;
+	boolean start;
+
+	
+}
