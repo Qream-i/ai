@@ -9,7 +9,6 @@
     <fullyQualifiedTypeName name="javaBasic4.ch07.sec03.Computer"/>
     <fullyQualifiedTypeName name="javaBasic4.ch07.sec04.SupersonicAirplane"/>
     <fullyQualifiedTypeName name="javaBasic4.ch07.sec07.A"/>
-    <fullyQualifiedTypeName name="java.lang.Process"/>
     <fullyQualifiedTypeName name="javaBasic4.ch07.sec12.Promotion4Ex"/>
     <fullyQualifiedTypeName name="javaBasic4.ch07.sec13.HankookTire"/>
     <fullyQualifiedTypeName name="javaBasic4.ch07.sec13.KumhoTire"/>
@@ -29,4 +28,10 @@
     <fullyQualifiedTypeName name="java.util.Vector"/>
     <fullyQualifiedTypeName name="java.time.LocalDateTime"/>
     <fullyQualifiedTypeName name="java.util.LinkedList"/>
+    <fullyQualifiedTypeName name="java.lang.Process"/>
+    <fullyQualifiedTypeName name="java.util.HashSet"/>
+    <fullyQualifiedTypeName name="java.util.Set"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="java.util.Iterator"/>
 </qualifiedTypeNameHistroy>
