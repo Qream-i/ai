@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="java.nio.file.FileSystemNotFoundException"/>
-    <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="javaBasic3.ch06.sec10.exam01.Calculator"/>
     <fullyQualifiedTypeName name="javaBasic3.ch06.sec04.AA"/>
     <fullyQualifiedTypeName name="java.nio.file.spi.FileSystemProvider"/>
@@ -34,4 +33,9 @@
     <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="java.util.Iterator"/>
+    <fullyQualifiedTypeName name="java.util.Comparator"/>
+    <fullyQualifiedTypeName name="java.util.TreeSet"/>
+    <fullyQualifiedTypeName name="javaApp3.ch13.sec01.BoxChild"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="A"/>
 </qualifiedTypeNameHistroy>
