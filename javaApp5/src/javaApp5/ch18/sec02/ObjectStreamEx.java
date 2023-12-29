@@ -44,6 +44,8 @@ public class ObjectStreamEx {
 }
 
 class Member implements Serializable{
+	
+	private static final long serialVersionUID = -5413711528933648809L;
 	String id;
 	String name;
 	int age;
