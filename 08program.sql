@@ -181,8 +181,6 @@ drop procedure ifelseProc;
 delimiter $$
 create procedure ifelseProc( in userName varchar(10), out byear int)
 begin
-	declare byear int;
-    declare nameOut varchar(10);
     select birthyear into byear from userTbl
 		where name = username;
 	if (byear>= 1980) then

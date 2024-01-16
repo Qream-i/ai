@@ -302,6 +302,204 @@ create table backup_userTbl
  ) ;
  
  -- 트리거 작성하기
+select * from testTbl;
+
+drop trigger if exists testTrg ;
+
+delimiter //
+  create  trigger  testTrg   -- 트리거가 언제 어느 테이블 적용할지 
+     after  delete     -- 이후에
+     on testTbl     
+     for each row 
+  begin
+     set @msg = '가수 그룹이 삭제됩니다' ; -- 트리거의 처리 내용
+  end // 
+delimiter ; 
+
+set @msg = '';
+insert into testTbl values ( 4, '마마무' );
+select @msg;
+
+update testTbl set txt='마마마무' where id = 4 ;
+select @msg;
+
+delete from testTbl where id = 4 ;
+select @msg;
+
+-- ---------------
+-- 요구사항 : 회원테이블에서 update, delete 시도하면
+--         수정된 또는 삭제된 테이블을 별도의 테이블에 보관하고 변경일자, 변경한 사람을 기록하자.
+use sqldb ;
+
+create table backup_userTbl 
+ (
+  userID  	CHAR(8) NOT NULL PRIMARY KEY, -- 사용자 아이디(PK)
+  name    	VARCHAR(10) NOT NULL, -- 이름
+  birthYear   INT NOT NULL,  -- 출생년도
+  addr	  	CHAR(2) NOT NULL, -- 지역(경기,서울,경남 식으로 2글자만입력)
+  mobile1	CHAR(3), -- 휴대폰의 국번(011, 016, 017, 018, 019, 010 등)
+  mobile2	CHAR(8), -- 휴대폰의 나머지 전화번호(하이픈제외)
+  height    	SMALLINT,  -- 키
+  mDate    	DATE,  -- 회원 가입일
+  modType char(2), -- 변경된 타입, '수정' 또는 '삭제'
+  modDate date, -- 변경된 날짜
+  modUser varchar(256) -- 변경한 사용자 
+ ) ;
  
- delimiter //
- create trigger backUserTbl
+-- 트리거 작성하기
+delimiter //
+create trigger  but  -- 언제할래? update 후에  무엇을 할래? usertbl의 모든 행을  
+   after update 
+   on usertbl 
+   for each row 
+ begin -- 어떻게 ? 내용 
+    insert into backup_userTbl  
+    values ( OLD.userID, OLD.name, OLD.birthYear, old.addr, 
+             old.mobile1, old.mobile2, old.height, old.mDate,
+             '수정', curdate(), current_user() 
+             ) ;
+ end //
+delimiter ; 
+
+select * from usertbl ;
+
+update usertbl set birthYear = 1977 where userId='BBK' ;
+update usertbl set addr = '서울' where userId='EJW' ;
+
+select * from backup_userTbl ;
+
+-- 467 삭제가 발생했을 때 트리거에 남기고 싶을 때
+delimiter //
+	create trigger bud -- 언제 누구에게
+    after delete
+    on usertbl
+    for each row
+begin
+	insert into backup_userTbl 
+    values(OLD.userID, OLD.name, OLD.birthYear, old.addr, 
+             old.mobile1, old.mobile2, old.height, old.mDate,
+             '삭제', curdate(), current_user()
+			) ;
+end //
+delimiter ;
+
+select * from usertbl;
+delete from usertbl where userid = 'YJS';
+select * from backup_userTbl;
+
+-- 469pg
+-- 삽입 후에 오류 발생시키고 경구메세지 띄우기
+delimiter //
+	create trigger uti -- 언제 누구에게
+    after insert
+    on usertbl
+    for each row
+begin
+	signal sqlstate '45000' set message_text = '데이터의 입력을 시도했습니다. 귀하의 정보가 서버에 기록되었습니다.';
+end //
+delimiter ;
+
+select * from usertbl;
+insert into usertbl values ('ABC', '에비씨', 1977, '서울', '011', '1111111', 181, '2019-12-25','잠재고객');
+
+drop trigger uti;
+
+-- before 트리거
+
+desc usertbl;
+-- old 는 변경되기 전의 자료, new 는 변경된 뒤의 자료
+delimiter //
+create trigger ubi
+	before insert
+    on usertbl
+    for each row
+begin
+	if new.birthyear < 1900 then
+		set new.birthyear = 0;
+	elseif new.birthyear > year (curdate()) then
+		set new.birthyear = year ( curdate () );
+	end if ;
+end//
+delimiter ;
+
+insert into usertbl values ('DDD', '디디디', 1877, '서울', '011', '111111', 181, '2019-12-25');
+select * from usertbl;
+
+delimiter //
+create trigger ubi
+	before insert
+    on usertbl
+    for each row
+begin
+	if new.addr = '평양' then
+		set new.addr= '외국인';
+	elseif new.mobile1 ='999' then
+		set new.mobile1 = '010';
+	end if ;
+end//
+delimiter ;
+
+-- 다중 트리거
+-- 구매1 물품테이블 -1, 배송테이블 +1
+drop database if exists triggerDb;
+create database if not exists triggerDb;
+use triggerDb;
+
+-- 구매 테이블
+create table orderTbl
+ (orderNo int auto_increment primary key,
+  userId varchar(5),
+  prodName varchar(5),
+  orderamount int);
+-- 물품 테이블
+create table prodTbl
+ (prodName varchar(5),
+  account int);
+-- 배송 테이블
+create table deliverTbl
+ ( deliverNo int auto_increment primary key,
+   prodName varchar(5),
+   account int );
+
+-- 물품테이블에 물건을 삽입하기 
+insert into prodTbl values ( '사과', 100 ); 
+insert into prodTbl values ( '배', 100 );
+insert into prodTbl values ( '귤', 100 );
+
+select * from prodTbl ; 
+    
+-- 트리거 
+-- 요구사항 구매테이블 삽입되면 물품테이블에서 갯수만큼 차감해서 업데이트 한다 
+delimiter //
+create trigger orderTg 
+   after insert
+   on orderTbl 
+   for each row 
+begin
+   update prodTbl set account = account - new.orderamount where prodName = new.prodName ;
+end //
+delimiter ;
+
+-- 요구사항 물품테이블을 업데이트 된 후에 배송테이블에 삽입하기  5개 
+delimiter //
+create trigger prodTg
+  after update 
+  on prodTbl
+  for each row 
+begin
+  declare orderAmount int; -- 변수 선언
+  set orderAmount = OLD.account - New.account ; -- 100 - 95 = 5
+  insert into deliverTbl values ( null, new.prodName, orderAmount ) ;
+end //
+delimiter ; 
+
+--   
+select * from ordertbl;
+desc ordertbl;
+insert into ordertbl values( null, 'BBK', '사과', 5 ) ;
+
+show triggers ;
+
+select * from ordertbl;
+select * from prodTbl;
+select * from deliverTbl ;
